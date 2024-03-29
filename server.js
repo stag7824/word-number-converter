@@ -29,3 +29,4 @@ app.post('/to/number', (req, res) => {
 app.post('/to/words', (req, res) => {
   // Conversion logic goes here
 });
+module.exports = app;

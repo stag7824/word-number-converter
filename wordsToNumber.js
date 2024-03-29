@@ -29,19 +29,27 @@ function wordsToNumber(words) {
     let currentNumber = 0;
     let powerCondition=false;
     let power = 0;
-    let tensCondition = false;
+    let baseCondition = false;
     while (index != 0) {
         index--;
         // Start from last and increment your way up
         if(powerCondition && baseNumbers[wordArray[index]]!=undefined){
-            let temp=baseNumbers[wordArray[index]]*power;
+            let temp=0;
+            if(tensAndMultiples[wordArray[index-1]]!=undefined){
+                temp=(baseNumbers[wordArray[index]] + tensAndMultiples[wordArray[index-1]])*power;
+                currentNumber+=temp;
+                index--;
+                powerCondition=false;
+                continue;
+            }
+            temp=baseNumbers[wordArray[index]]*power;
             currentNumber+=temp;
-            power=0;
             powerCondition=false;
             continue;
         }
         if (baseNumbers[wordArray[index]] != undefined) {
             currentNumber += baseNumbers[wordArray[index]];
+
         }
         else if (addOns[wordArray[index]] != undefined) {
             power = addOns[wordArray[index]];
@@ -54,8 +62,6 @@ function wordsToNumber(words) {
             throw new Error("Invalid Input");
         }
     }
-
-
     return currentNumber;
 }
 
