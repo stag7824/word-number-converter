@@ -7,26 +7,20 @@ const teens = {
     "ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13,
     "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17,
     "eighteen": 18, "nineteen": 19
-
 }
 
 const tensAndMultiples = {
-    "ten": 10,
-    "twenty": 20, "thirty": 30,
-    "forty": 40, "fifty": 50, "sixty": 60, "seventy": 70,
-    "eighty": 80, "ninety": 90,
+    "ten": 10, "twenty": 20, "thirty": 30, "forty": 40,
+    "fifty": 50, "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90,
 }
 const addOns = {
-
     "hundred": 100, "thousand": 1000,
     "million": 1000000, "billion": 1000000000
 }
 
 
-
-
 function wordsToNumber(words) {
-    words = words.toLowerCase().replace(/-/g, " ").replace(/,/g, "").replace(" and", "");
+    words = words.toLowerCase().replace(/-/g, " ").replace(/,/g, "").replace(" and", "").replace(" a", "");
     let wordArray = words.split(" ");
     let ArrayLength = wordArray.length;
     let index = ArrayLength;
@@ -74,13 +68,27 @@ function wordsToNumber(words) {
             continue;
         }
         // Means I have a base number and should be added without any additional codition (first base number)
-        if (baseNumbers[wordArray[index]] != undefined) {
+        else if (baseNumbers[wordArray[index]] != undefined) {
+            if(wordArray[index-1]=="point"){
+                currentNumber += baseNumbers[wordArray[index]] * 0.1;
+                index--;
+                continue;
+            }
+            else if(wordArray[index-2]=="point"){
+                currentNumber += (tensAndMultiples[wordArray[index-1]]+ baseNumbers[wordArray[index]]) * 0.01;
+                index-=2;
+                continue;
+            }
             currentNumber += baseNumbers[wordArray[index]];
         }
         // If I have a teen number then add it to the current number (first teen Number)
         else if (teens[wordArray[index]] != undefined) {
+            if(wordArray[index-1]=="point"){
+                currentNumber += teens[wordArray[index]] * 0.01;
+                index--;
+                continue;
+            }
             currentNumber += teens[wordArray[index]];
-
         }
 
         // If I have a power of 10 then set the power and set the condition to true
@@ -92,6 +100,13 @@ function wordsToNumber(words) {
         // If I have a tens or multiples of 10 then add it to the current number 
         else if (tensAndMultiples[wordArray[index]] != undefined) {
             currentNumber += tensAndMultiples[wordArray[index]];
+        }
+
+        else if (wordArray[index] == "half") {
+            currentNumber += 0.5;
+        }
+        else if (wordArray[index] == "quarter") {
+            currentNumber += 0.25;
         }
         else {
             throw new Error("Invalid Input");

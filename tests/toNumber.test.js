@@ -1,7 +1,7 @@
 const { app, server } = require('../server');
 const request = require('supertest');
 
-describe('POST /to/number', () => {
+describe('Number conversion API', () => {
   it('should convert "One hundred and one" to 101', async () => {
     const response = await request(app)
       .post('/to/number')
@@ -60,6 +60,51 @@ describe('POST /to/number', () => {
     expect(response.body.error).toBe("Invalid Input");
   });
 
+  it('should convert "One hundred and fifty four" to 154', async () => {
+    const response = await request(app)
+      .post('/to/number')
+      .send({ words: "One hundred and fifty four" });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.number).toBe(154);
+  });
+
+  it('should convert "Two and a half" to 2.5', async () => {
+    const response = await request(app)
+      .post('/to/number')
+      .send({ words: "Two and a half" });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.number).toBe(2.5);
+  });
+
+  it('should convert "Two point five" to 2.5', async () => {
+    const response = await request(app)
+      .post('/to/number')
+      .send({ words: "Two point five" });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.number).toBe(2.5);
+  });
+  
+  it('should convert "Two Million Three Hundred Twelve Thousand Three Hundred Fifteen Point Five" to 2312315.5', async () => {
+    const response = await request(app)
+      .post('/to/number')
+      .send({ words: "Two Million Three Hundred Twelve Thousand Three Hundred Fifteen Point Five" });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.number).toBe(2312315.5);
+  });
+
+  it('should convert "Two Million One Hundred Sixty-eight Thousand Four Hundred Sixty-three Point Eighteen" to 2168463.18', async () => {
+    const response = await request(app)
+      .post('/to/number')
+      .send({ words: "Two Million One Hundred Sixty-eight Thousand Four Hundred Sixty-three Point Eighteen" });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.number).toBe(2168463.18);
+  });
+  
 
   afterAll(done => {
     server.close(done);
