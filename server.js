@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 const express = require('express');
 
 const app = express();
 
 app.use(express.json());
-
-app.listen(3000, () => console.log('Server running on port 3000'));
+// console.log("Server running on", process.env.PORT, process.env.HOST);
+const server = app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.HOST}:${process.env.PORT}`));
 
 
 const wordsToNumber=require('./wordsToNumber')
@@ -15,7 +17,7 @@ app.post('/to/number', (req, res) => {
   try {
     let number = req.body.words;
     if (number == undefined) {
-      res.status(433).json({ error: "Invalid Input" });
+      res.status(422).json({ error: "Invalid Input" });
       return;
     }
     number=wordsToNumber(req.body.words);
@@ -29,4 +31,4 @@ app.post('/to/number', (req, res) => {
 app.post('/to/words', (req, res) => {
   // Conversion logic goes here
 });
-module.exports = app;
+module.exports = { app, server };
