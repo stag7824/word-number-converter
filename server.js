@@ -9,7 +9,8 @@ app.use(express.json());
 const server = app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.HOST}:${process.env.PORT}`));
 
 
-const wordsToNumber=require('./wordsToNumber')
+const wordsToNumber=require('./wordsToNumber');
+const numberToWords=require('./numbersToWords');
 
 
 app.post('/to/number', (req, res) => {
@@ -30,5 +31,16 @@ app.post('/to/number', (req, res) => {
 
 app.post('/to/words', (req, res) => {
   // Conversion logic goes here
+  try {
+    let number = req.body.number;
+    if (number == undefined) {
+      res.status(422).json({ error: "Invalid Input" });
+      return;
+    }
+    let words=numberToWords(Number(req.body.number));
+    res.json({ words });
+  } catch (error) {
+    res.status(422).json({ error: error.message });
+  }
 });
 module.exports = { app, server };
