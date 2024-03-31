@@ -1,14 +1,19 @@
 {
   "name": "word2numviceversa",
   "version": "1.0.0",
+  "engines": {
+    "node": "21.x"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "start": "node src/server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Syed Talha Ahmed Gardazi",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2"

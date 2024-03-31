@@ -1,4 +1,4 @@
-const { app, server } = require('../server');
+const app= require('../app');
 const request = require('supertest');
 
 describe('Number conversion API', () => {
@@ -106,7 +106,11 @@ describe('Number conversion API', () => {
   });
   
 
-  afterAll(done => {
-    server.close(done);
-  });
+  // afterAll(done => {
+  //   if (server && server.listening) {
+  //       server.close(done);
+  //   } else {
+  //       done();
+  //   }
+  // });
 });

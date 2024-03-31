@@ -1,46 +1,12 @@
 require('dotenv').config();
 
-const express = require('express');
 
-const app = express();
+const app = require('./app');
 
-app.use(express.json());
-// console.log("Server running on", process.env.PORT, process.env.HOST);
-const server = app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.HOST}:${process.env.PORT}`));
+let server;
 
+if (!server || !server.listening) {
+    server = app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.HOST}:${process.env.PORT}`));
+}
 
-const wordsToNumber=require('./wordsToNumber');
-const numberToWords=require('./numbersToWords');
-
-
-app.post('/to/number', (req, res) => {
-  // Conversion logic goes here
-  try {
-    let number = req.body.words;
-    if (number == undefined) {
-      res.status(422).json({ error: "Invalid Input" });
-      return;
-    }
-    number=wordsToNumber(req.body.words);
-    res.json({ number });
-  } catch (error) {
-    res.status(422).json({ error: error.message });
-  }
-});
-
-
-app.post('/to/words', (req, res) => {
-  // Conversion logic goes here
-  try {
-    let number = req.body.number;
-    if (number == undefined) {
-      res.status(422).json({ error: "Invalid Input" });
-      return;
-    }
-    let words=numberToWords(Number(req.body.number));
-    res.json({ words });
-  } catch (error) {
-    res.status(422).json({ error: error.message });
-  }
-});
-module.exports = { app, server };
+module.exports = server;

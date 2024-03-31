@@ -1,5 +1,5 @@
 function numberToWords(number) {
-    if (typeof number !== 'number') {
+    if (number < 0 || number > 9999999.99 || isNaN(number)) {
         throw new Error('Invalid input');
     }
     const units = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
