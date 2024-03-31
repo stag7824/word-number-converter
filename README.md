@@ -15,8 +15,8 @@ The API has two main endpoints:
 To get started with this project, clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/yourusername/word-number-converter.git
-cd word-number-converter
+git clone https://github.com/stag7824/word2NumViceVersa.git
+cd word2NumViceVersa
 npm install
 ```
 
