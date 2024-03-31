@@ -17,19 +17,31 @@ routes.post('/to/words', (req, res) => {
         res.status(422).json({ error: error.message });
     }
 });
+
 routes.post('/to/number', (req, res) => {
-    // Conversion logic goes here
     try {
-        let number = req.body.words;
-        if (number == undefined) {
+        let words = req.body.words;
+        if (words == undefined) {
             res.status(422).json({ error: "Invalid Input" });
             return;
         }
-        number = wordsToNumber(req.body.words);
+        let number = wordsToNumber(words);
         res.json({ number });
     } catch (error) {
         res.status(422).json({ error: error.message });
     }
+});
+
+routes.all('/to/number', (req, res) => {
+    res.status(405).json({ error: 'Method Not Allowed' });
+});
+
+routes.all('/to/words', (req, res) => {
+    res.status(405).json({ error: 'Method Not Allowed' });
+});
+
+routes.all('*', (req, res) => {
+    res.status(404).json({ error: 'Not Found' });
 });
 
 module.exports = routes;
